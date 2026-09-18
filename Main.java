@@ -6,22 +6,23 @@ import java.util.Scanner;
 
 
 public class Main {
-    Scanner input = new Scanner(System.in);
 
     static String validInput(String message, String[] options) {
+        Scanner input = new Scanner(System.in);
+
         while (true) {
             message += " (";
             for (String option: options) {
                 message += option + "/";
             }
-            message = message.substring(0,message.length()-2)+") ";
+            message = message.substring(0,message.length()-1)+") ";
             System.out.println(message);
             String testOption = input.nextLine();
             
             try {
                 Integer index = Integer.parseInt(testOption);
-                
-                if ((index > 0) && (index < options.length)) {
+                index --;
+                if ((index >= 0) && (index < options.length)) {
                     return options[index];
                 } else {
                     throw new Exception("Value out of range!");
@@ -41,7 +42,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        
+        Scanner input = new Scanner(System.in);
 
         System.out.println("Welcome to InfiniStocks!");
 
@@ -89,7 +90,9 @@ public class Main {
             }
             else if (option.equals("New Portfolio"))
             {
-                userPorts.add(new Portfolio());
+                System.out.println("What is the name of the portfolio? ");
+                String name = input.nextLine();
+                userPorts.add(new Portfolio(name));
             }
             else if (option.equals("Delete Portfolio"))
             {
