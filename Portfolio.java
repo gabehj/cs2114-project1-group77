@@ -1,4 +1,4 @@
-public Portfolio {
+public class Portfolio {
     // Main User Interaction with Portfolio
     // Extension of input/output interaction provided by main.
     public void interact()
