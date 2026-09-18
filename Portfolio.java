@@ -1,6 +1,44 @@
-public class Portfolio {
+import java.util.Scanner;
+
+
     // Main User Interaction with Portfolio
     // Extension of input/output interaction provided by main.
+public class Portfolio {
+
+        
+    static String validInput(String message, String[] options) {
+        Scanner input = new Scanner(System.in);
+        while (true) {
+            message += " (";
+            for (String option: options) {
+                message += option + "/";
+            }
+            message = message.substring(0,message.length()-2)+") ";
+            System.out.println(message);
+            String testOption = input.nextLine();
+            
+            try {
+                Integer index = Integer.parseInt(testOption);
+                
+                if ((index > 0) && (index < options.length)) {
+                    return options[index];
+                } else {
+                    throw new Exception("Value out of range!");
+                }
+            }
+            catch (Exception e) {
+                System.out.print("");
+            }
+            finally {
+                for (int i=0; i<options.length; i++) {
+                    if (options[i].toLowerCase().equals(testOption.toLowerCase())) {
+                        return options[i];
+                    }
+                }
+            }
+        }
+    }
+
     public void interact()
     {
         String[] validOptions = new String[] {"Display", "Buy", "Sell", "Wait", "Exit"};

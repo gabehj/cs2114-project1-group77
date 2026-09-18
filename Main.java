@@ -1,21 +1,22 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 // The primary input-output interaction btw users 
 // and program as assets are managed
 
-import javax.management.ValueExp;
 
-import org.w3c.dom.ranges.RangeException;
 
 public class Main {
+    Scanner input = new Scanner(System.in);
 
-    protected String validInput(String message, String[] options) {
+    static String validInput(String message, String[] options) {
         while (true) {
             message += " (";
             for (String option: options) {
                 message += option + "/";
             }
             message = message.substring(0,message.length()-2)+") ";
-            String testOption = input(message);
+            System.out.println(message);
+            String testOption = input.nextLine();
             
             try {
                 Integer index = Integer.parseInt(testOption);
@@ -38,8 +39,10 @@ public class Main {
             }
         }
     }
-    
+
     public static void main(String[] args) {
+        
+
         System.out.println("Welcome to InfiniStocks!");
 
         ArrayList<Portfolio> userPorts = new ArrayList<>();
