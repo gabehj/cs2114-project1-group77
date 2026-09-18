@@ -4,8 +4,18 @@ import java.util.Scanner;
     // Main User Interaction with Portfolio
     // Extension of input/output interaction provided by main.
 public class Portfolio {
+    String name;
 
-        
+    public Portfolio(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
     static String validInput(String message, String[] options) {
         Scanner input = new Scanner(System.in);
         while (true) {
