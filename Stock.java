@@ -1,4 +1,17 @@
 public class Stock
+/**
+ * 
+ * 
+ * this is the Stock class it sets the base stock class that all other securities inherit from 
+ * 
+ * @param update    This one updates the prices based on the volotility
+ * 
+ * 
+ * 
+ *  @author janbe
+ *  @version Sep 23, 2026
+ */
+
 {
     /** Ticker symbol or display name of this security. */ 
     
