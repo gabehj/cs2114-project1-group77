@@ -17,14 +17,21 @@ public class Main
 
     
     /**
-     * This class only has static methods, so it is never instantiated.
+     * Runs the whole game: shows the top-level menu until the player quits
+     * (or the input runs out).
+     *
      */
     public Main()
     {
+        System.out.println("Welcome to InfiniStocks!");
+
         while (!option.equals("Quit")) {
             option = validInput("What would you like to do?", validOption);
             
             if (option.equals("View portfolios")) {
+                if (userPorts.isEmpty()){
+                    System.out.println("You don't have any portfolios yet.");
+                }
                 for (Portfolio p : userPorts) {
                     System.out.println(p);
                 }
@@ -78,6 +85,15 @@ public class Main
         new Main();
     }
 
+    /**
+     * Takes input message and list of acceptable responses.
+     *
+     * @param message
+     *            message to display
+     * @param validOptions
+     *            list of acceptable responses
+     * @return valid response from user
+     */
     public String validInput(String message, String[] validOptions) {
         message += " (";
         for (String option : validOptions) {
@@ -107,18 +123,10 @@ public class Main
             }
         }  
     }
-    /**
-     * Runs the whole game: shows the top-level menu until the player quits
-     * (or the input runs out).
-     *
-     * @param input
-     *            where the player's answers come from
-     * @return the portfolios as they were when the game ended, so that a
-     *         test can look at what the player did
-     */
+
     public static ArrayList<Portfolio> run(Input input)
     {
-        System.out.println("Welcome to InfiniStocks!");
+        
         Market market = Market.createDefault();
         ArrayList<Portfolio> portfolios = new ArrayList<Portfolio>();
 
