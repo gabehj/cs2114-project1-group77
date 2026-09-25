@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * A Portfolio is one player's account: a name, the cash it holds, and the
@@ -12,6 +13,112 @@ import java.util.ArrayList;
  */
 public class Portfolio
 {
+    Scanner input = new Scanner(System.in);
+
+    private String name;
+
+    /** Cash on hand. */
+    private double balance;
+
+    /** Every dollar the player has put in, including the starting cash. */
+    private double deposited;
+
+    /** The shares the portfolio owns, one holding per stock. */
+    private ArrayList<Holding> holdings;
+
+    private ArrayList<Stock> stocks;
+
+    public void interact() {
+        String validOptions[] = {"Display","Buy","Sell","Wait","Exit"};
+        String option = "";
+	    String name;
+	    int price;
+        String[] validNames;
+
+        while (!option.equals("Exit")) {
+	        option = validInput("What would you like to do?",validOptions);
+            
+            if (option.equals("Display")) {
+                System.out.println(this);
+
+            } else if (option.equals("Buy")) {
+                if (balance > 0) {
+                    name = "";
+                    name = input.nextLine();
+                    while (name.equals("")) {
+                        System.out.println("Please enter a stock name");
+                        name = input.nextLine();
+                    }
+                    ///
+                    stocks.add(new Stock(name, price, price, price))
+                }
+            
+            } else if (option.equals("Sell")) {
+                validNames = new String[stocks.size()];
+                for (int i = 0; i < stocks.size(); i++) {
+                    validNames[i] = stocks.get(i).getName();
+                }
+                name = validInput("Which stock would you like to sell?",validNames);
+                
+                for (int j = 0; j < stocks.size(); j++) {
+                    if (stocks.get(j).getName().equals(name)) {
+                        stocks.get(j).sell();
+                    }
+                }
+
+            } else if (option.equals("Wait")) {
+                System.out.println("You decide to keep cool and let it ride...");
+            } else if (option.equals("Exit")) {
+                System.out.println("Exiting portfolio menu.");
+                break;
+            } else {
+                System.out.println("Universe Explodes! You have chosen an invalid option.");
+            }
+            for (int i = 0; i < stocks.size(); i++) {
+                stocks.get(i).update();
+            }
+        }
+    }
+
+    /**
+     * Takes input message and list of acceptable responses.
+     *
+     * @param message
+     *            message to display
+     * @param validOptions
+     *            list of acceptable responses
+     * @return valid response from user
+     */
+    public String validInput(String message, String[] validOptions) {
+        message += " (";
+        for (String option : validOptions) {
+            message += option + ", ";
+        }
+        message = message.substring(0, message.length() - 2) + ") ";
+        
+        while (true) {
+            System.out.println(message);
+            String userOption = input.nextLine();
+            
+            try {
+                int index = Integer.parseInt(userOption);
+                if ((index >= 0) && (index < validOptions.length)) {
+                    return validOptions[index];
+                }
+            }
+            catch (Exception e) {
+                // Ignore and check the string options below
+            }
+            finally {
+                for (String option : validOptions) {
+                    if (userOption.equalsIgnoreCase(option)) {
+                        return option;
+                    }
+                }
+            }
+        }  
+    }
+
     /** Cash every new portfolio starts with. */
     public static final double STARTING_BALANCE = 10000.00;
 
@@ -37,17 +144,6 @@ public class Portfolio
     /** Menu option that backs out of a buy, sell, or similar prompt. */
     private static final String BACK = "Back";
 
-    /** The portfolio's name, chosen by the player. */
-    private String name;
-
-    /** Cash on hand. */
-    private double balance;
-
-    /** Every dollar the player has put in, including the starting cash. */
-    private double deposited;
-
-    /** The shares the portfolio owns, one holding per stock. */
-    private ArrayList<Holding> holdings;
 
     /**
      * Creates a portfolio with the standard starting cash.
