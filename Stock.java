@@ -41,19 +41,11 @@ public class Stock
      */
     public Stock(String name, double value)
     {
-        double price = Math.random() * 150 + 100; // Random price between 100 and 249this.name = name;
-        
-        System.out.println("Enter the starting price for " + name + ":");
-        price = input.nextDouble();
-        while (price < 0) {
-            System.out.println("Price cannot be negative. Please enter a valid price for " + name + ":");
-            price = input.nextDouble();
-        }
-
-        this.price = price;
+        this.price =  Math.random() * 150 + 100; // Random price between 100 and 249this.name = name;
+        this.volume = value / this.price; // Calculate volume based on value and price
+        this.name = name;
         this.previousPrice = price;
         this.volatility = 5.0; // Example volatility, adjust as needed
-        this.volume = 1000.0; // Example volume, adjust as needed
     }
 
 
