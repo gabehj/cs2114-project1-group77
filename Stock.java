@@ -1,3 +1,4 @@
+import java.util.Scanner;
 /**
  * The base class for every security in the market. A stock has a name, a
  * current price, a volatility that controls how far the price can move in a
@@ -9,6 +10,8 @@
  */
 public class Stock
 {
+    Scanner input = new Scanner(System.in);
+
     /** Ticker symbol or display name of this security. */
     private String name;
 
@@ -36,13 +39,21 @@ public class Stock
      * @param volume
      *            trading volume
      */
-    public Stock(String name, double price, int volatility, int volume)
+    public Stock(String name, double value)
     {
-        this.name = name;
+        double price = Math.random() * 150 + 100; // Random price between 100 and 249this.name = name;
+        
+        System.out.println("Enter the starting price for " + name + ":");
+        price = input.nextDouble();
+        while (price < 0) {
+            System.out.println("Price cannot be negative. Please enter a valid price for " + name + ":");
+            price = input.nextDouble();
+        }
+
         this.price = price;
         this.previousPrice = price;
-        this.volatility = volatility;
-        this.volume = volume;
+        this.volatility = 5.0; // Example volatility, adjust as needed
+        this.volume = 1000.0; // Example volume, adjust as needed
     }
 
 
@@ -136,6 +147,24 @@ public class Stock
     public double getChange()
     {
         return price - previousPrice;
+    }
+
+    /**
+     * Sells the stock, returning the amount of money withdrawn from the portfolio. The amount is the difference between the current price and the previous price, which is how much money was gained or lost since the last update.
+     *
+     * @return value of the money withdrawn
+     */
+    public double sell()
+    {
+        Double value = getPrice()*getVolume();
+        System.out.println("How much would you like to sell? (Between 0 and " + value + ")");
+        Double amount = input.nextDouble();
+        while (amount < 0 || amount > value) {
+            System.out.println("Invalid amount. Please enter a value between 0 and " + value);
+            amount = input.nextDouble();
+        }
+        volume -= amount/getPrice();
+        return amount;
     }
 
 

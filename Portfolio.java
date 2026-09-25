@@ -54,9 +54,15 @@ public class Portfolio
                     while (name.equals("")) {
                         System.out.println("Please enter a stock name");
                         name = input.nextLine();
+                        for (Stock s : stocks) {
+                            if (name.equals(s.getName())) {
+                                System.out.println("You already have a stock named " + s.getName() + ".");
+                                name = "";
+                                break;
+                            }
+                        }
                     }
-                    ///
-                    stocks.add(new Stock(name, price, price, price));
+                    stocks.add(new Stock(name));
                 }
             
             } else if (option.equals("Sell")) {
@@ -68,7 +74,12 @@ public class Portfolio
                 
                 for (int j = 0; j < stocks.size(); j++) {
                     if (stocks.get(j).getName().equals(name)) {
-                        stocks.get(j).sell();
+                        Double amount = stocks.get(j).sell();
+                        balance += amount;
+                        System.out.println("You sold " + name + " for " + amount + ". Cash now: " + balance);
+                    }
+                    if (stocks.get(j).getVolume() <= 0.1) {
+                        stocks.remove(j);
                     }
                 }
 
@@ -145,14 +156,12 @@ public class Portfolio
      *
      * @param name
      *            the portfolio's name
-     * @throws IllegalArgumentException
-     *             if the name is not valid (see validateName)
      */
     public Portfolio(String name)
     {
         this.name = name;
+        this.balance = STARTING_BALANCE;
     }
-
 
     /**
      * Creates a portfolio with a particular cash balance instead of the
