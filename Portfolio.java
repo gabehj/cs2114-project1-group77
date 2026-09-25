@@ -28,6 +28,14 @@ public class Portfolio
 
     private ArrayList<Stock> stocks;
 
+    /**
+     * Runs the portfolio menu until the player chooses Exit. One trading
+     * day passes each time the menu is shown, so prices move whether the
+     * player trades or just waits.
+     *
+     * @throws InputEndedException
+     *             if the input runs out before the player exits
+     */
     public void interact() {
         String validOptions[] = {"Display","Buy","Sell","Wait","Exit"};
         String option = "";
@@ -50,7 +58,7 @@ public class Portfolio
                         name = input.nextLine();
                     }
                     ///
-                    stocks.add(new Stock(name, price, price, price))
+                    stocks.add(new Stock(name, price, price, price));
                 }
             
             } else if (option.equals("Sell")) {
@@ -68,9 +76,11 @@ public class Portfolio
 
             } else if (option.equals("Wait")) {
                 System.out.println("You decide to keep cool and let it ride...");
+            
             } else if (option.equals("Exit")) {
-                System.out.println("Exiting portfolio menu.");
+                System.out.println("You run away from the bear with your tail between your legs :(");
                 break;
+            
             } else {
                 System.out.println("Universe Explodes! You have chosen an invalid option.");
             }
@@ -131,20 +141,6 @@ public class Portfolio
     /** Half a cent, below which a difference is treated as zero. */
     private static final double HALF_CENT = 0.005;
 
-    /** Printed when the player chooses to wait. */
-    private static final String WAIT_MESSAGE =
-        "You survey the market with the regality of a lion plotting to sink "
-        + "its teeth into an antelope's succulent thighs. Perchance that "
-        + "dreamy feast awaits another warm night.";
-
-    /** Printed when the player leaves the portfolio menu. */
-    private static final String EXIT_MESSAGE =
-        "You run away from the bear with your tail between your legs :(";
-
-    /** Menu option that backs out of a buy, sell, or similar prompt. */
-    private static final String BACK = "Back";
-
-
     /**
      * Creates a portfolio with the standard starting cash.
      *
@@ -188,65 +184,6 @@ public class Portfolio
 
 
     /**
-     * Checks that a name is usable: not blank, not longer than
-     * MAX_NAME_LENGTH, and not just digits (which would clash with picking
-     * menu options by number).
-     *
-     * @param name
-     *            the name to check
-     * @return the name with surrounding spaces removed
-     * @throws IllegalArgumentException
-     *             if the name is not usable, with a message that says why
-     */
-    public static String validateName(String name)
-    {
-        if (name == null || name.trim().isEmpty())
-        {
-            throw new IllegalArgumentException("A name can't be blank.");
-        }
-        String trimmed = name.trim();
-        if (trimmed.length() > MAX_NAME_LENGTH)
-        {
-            throw new IllegalArgumentException("A name can't be longer than "
-                + MAX_NAME_LENGTH + " characters.");
-        }
-        if (trimmed.matches("[0-9]+"))
-        {
-            throw new IllegalArgumentException("A name can't be just a "
-                + "number, because numbers pick menu options.");
-        }
-        return trimmed;
-    }
-
-
-    /**
-     * Finds a portfolio in a list by name, ignoring case.
-     *
-     * @param portfolios
-     *            the list to search
-     * @param name
-     *            the name to look for
-     * @return the matching portfolio, or null if there is none
-     */
-    public static Portfolio findByName(ArrayList<Portfolio> portfolios,
-        String name)
-    {
-        if (name == null)
-        {
-            return null;
-        }
-        for (Portfolio portfolio : portfolios)
-        {
-            if (portfolio.getName().equalsIgnoreCase(name.trim()))
-            {
-                return portfolio;
-            }
-        }
-        return null;
-    }
-
-
-    /**
      * Tells whether a number is usable as an amount of money.
      *
      * @param amount
@@ -281,7 +218,10 @@ public class Portfolio
      */
     public void setName(String name)
     {
-        this.name = validateName(name);
+        if (!(name.equals("")))
+        {
+            this.name = name;
+        }
     }
 
 
@@ -599,64 +539,6 @@ public class Portfolio
         text += "  " + result + ": " + Money.format(getProfit())
             + " on " + Money.format(deposited) + " put in\n";
         return text;
-    }
-
-
-    /**
-     * Runs the portfolio menu until the player chooses Exit. One trading
-     * day passes each time the menu is shown, so prices move whether the
-     * player trades or just waits.
-     *
-     * @param input
-     *            where the player's answers come from
-     * @param market
-     *            the stocks that can be traded
-     * @throws InputEndedException
-     *             if the input runs out before the player exits
-     */
-    public void interact(Input input, Market market)
-    {
-        String[] options = {
-            "Display", "Market", "Buy", "Sell", "Deposit", "Wait", "Exit"};
-        String option = "";
-
-        System.out.println("Managing portfolio \"" + name + "\".");
-        while (!option.equals("Exit"))
-        {
-            market.update();
-            System.out.println(market.ticker());
-
-            option = input.choose("What would you like to do?", options);
-
-            if (option.equals("Display"))
-            {
-                System.out.print(this);
-            }
-            else if (option.equals("Market"))
-            {
-                System.out.print(market);
-            }
-            else if (option.equals("Buy"))
-            {
-                buyFromInput(input, market);
-            }
-            else if (option.equals("Sell"))
-            {
-                sellFromInput(input, market);
-            }
-            else if (option.equals("Deposit"))
-            {
-                depositFromInput(input);
-            }
-            else if (option.equals("Wait"))
-            {
-                System.out.println(WAIT_MESSAGE);
-            }
-            else
-            {
-                System.out.println(EXIT_MESSAGE);
-            }
-        }
     }
 
 
