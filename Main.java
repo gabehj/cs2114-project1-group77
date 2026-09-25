@@ -39,6 +39,10 @@ public class Main
             
             else if (option.equals("Select portfolio")) {
                 validNames = new String[userPorts.size()];
+                if (userPorts.isEmpty()){
+                    System.out.println("You don't have any portfolios to select.");
+                    continue;
+                }
                 for (int i = 0; i < userPorts.size(); i++) {
                     validNames[i] = userPorts.get(i).getName();
                 }
@@ -67,6 +71,10 @@ public class Main
             
             else if (option.equals("Delete portfolio")) {
                 validNames = new String[userPorts.size()];
+                if (validNames.length == 0) {
+                    System.out.println("You don't have any portfolios to delete.");
+                    continue;
+                }
                 for (int i = 0; i < userPorts.size(); i++) {
                     validNames[i] = userPorts.get(i).getName();
                 }

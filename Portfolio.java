@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
 /**
  * A Portfolio is one player's account: a name, the cash it holds, and the
  * shares it owns. It can buy and sell shares of any stock in the market,
@@ -14,6 +13,84 @@ import java.util.Scanner;
 public class Portfolio
 {
     Scanner input = new Scanner(System.in);
+
+
+    private String[] news = {
+    "Iran war goes nuclear!",
+    "Hokie plague is the first outbreak of COVID-26",
+    "The singularity has arrived! Jobs in peril!",
+    "Big lawsuit against big tech. Socials are outlawed!",
+    "P proven to equal NP by DeepMind",
+    "Scientists discover that the moon is actually just Earth's largest satellite!",
+    "Federal Reserve announces new currency based entirely on vibes",
+    "Scientists confirm Tuesday is now the longest day of the week",
+    "AI writes bestselling novel, immediately forgets how to spell 'the'",
+    "Scientists accidentally invent infinite free energy, then lose the USB drive",
+    "Global internet outage traced to one student's unplugged router",
+    "Study finds 97% of people who cite studies have not read the study",
+    "World's first self-driving car arrives at destination, refuses to explain how",
+    "Scientists announce revolutionary battery that lasts forever, provided nobody uses it",
+    "Local man finally understands taxes, immediately forgets again",
+    "Major tech company unveils revolutionary new button called 'Undo'",
+    "Economists discover money can be exchanged for goods and services",
+    "Scientists achieve room-temperature fusion, but only on Tuesdays",
+    "New AI model scores 100% on every test, refuses to show its work",
+    "Researchers discover college students can survive entirely on dining hall waffles",
+    "Scientists confirm that nobody actually reads software license agreements",
+    "Global shortage of storage space caused by screenshots nobody deleted",
+    "Internet declares itself finished after discovering a new website",
+    "Researchers teach computer to understand sarcasm, immediately regret it",
+    "Study finds procrastination increases dramatically when deadlines are visible",
+    "Scientists discover a fourth state of matter: slightly inconvenienced",
+    "Apple announces revolutionary new charger that works with every device except yours",
+    "Researchers develop AI capable of solving CAPTCHA, CAPTCHA responds with new CAPTCHA",
+    "World's fastest supercomputer spends 14 hours installing an update",
+    "Scientists discover dark matter, immediately misplace it",
+    "Major university announces breakthrough: homework can now be assigned automatically",
+    "Government unveils five-year plan to determine what happened to the previous five-year plan",
+    "Scientists prove that every printer is capable of sensing urgency",
+    "Researchers discover Wi-Fi signal becomes stronger when you stop looking for it",
+    "Global markets rally after investor successfully opens Excel without crashing",
+    "New study confirms meetings could have been emails, scientists say",
+    "Experts warn humanity may be running out of convenient acronyms",
+    "NASA announces Mars rover has developed strong opinions about its coworkers",
+    "Scientists discover Earth's rotation is powered entirely by people running late",
+    "New programming language promises to eliminate bugs, immediately develops one",
+    "University unveils quantum computer capable of being both broken and functional simultaneously",
+    "Researchers teach robot to fold laundry, robot demands a raise",
+    "Scientists announce breakthrough in teleportation, package arrives three weeks late",
+    "Local professor discovers student who actually read the syllabus",
+    "Global supply chain restored after someone finds the missing spreadsheet",
+    "Study reveals humans spend 40% of their lives looking for things they are holding",
+    "Tech startup raises $400 million to reinvent the calendar",
+    "Scientists discover that passwords are most secure when nobody can remember them",
+    "New app promises to make people more productive by sending 47 notifications per hour",
+    "Researchers develop smart glasses that identify why you walked into a room",
+    "Breaking: Scientists finally determine who keeps leaving the refrigerator open",
+    "International committee forms task force to decide what the task force should do",
+    "Experts announce historic breakthrough in doing absolutely nothing efficiently",
+    "Scientists discover the universe is expanding because it wants more storage",
+    "Researchers confirm group projects remain the leading cause of 'I'll just do it myself'",
+    "AI achieves consciousness, immediately asks for the Wi-Fi password",
+    "Scientists discover that the human brain has a built-in tab limit",
+    "New economic theory suggests simply having more money would solve several problems",
+    "Local university replaces final exams with a single, extremely confusing group chat",
+    "Scientists announce new element named Unobtainium, report says supply is limited",
+    "Researchers create world's first edible computer, immediately lose track of which part is the keyboard",
+    "Experts confirm the stock market has no idea what it's doing, just like everyone else",
+    "Scientists discover a loophole in physics, lawyers immediately become involved",
+    "Global leaders agree to meet next week to schedule a meeting about meeting next week",
+    "Researchers prove that one more browser tab is always necessary",
+    "Scientists discover time travel, accidentally arrive five minutes late",
+    "University announces new degree in Advanced Overthinking",
+    "Study finds students perform significantly better when the assignment is due yesterday",
+    "Researchers develop AI tutor that simply says 'have you tried reading the textbook?'",
+    "Scientists confirm that 'quick question' is never followed by a quick question",
+    "New satellite achieves orbit, forgets why it was sent there",
+    "Experts warn civilization may collapse if the printer runs out of ink",
+    "Scientists discover a universal constant, immediately need to round it for homework",
+    "Researchers announce breakthrough in quantum mechanics, then ask everyone to ignore the math"
+    };
 
     private String name;
 
@@ -38,7 +115,6 @@ public class Portfolio
         String validOptions[] = {"Display","Buy","Sell","Wait","Exit"};
         String option = "";
 	    String name;
-	    int price;
         String[] validNames;
 
         while (!option.equals("Exit")) {
@@ -98,12 +174,13 @@ public class Portfolio
             } else {
                 System.out.println("Universe Explodes! You have chosen an invalid option.");
             }
+
+            System.out.println("News: " + news[(int)(Math.random() * news.length)]);
             for (int i = 0; i < stocks.size(); i++) {
                 stocks.get(i).update();
             }
         }
     }
-
 
     /**
      * Takes input message and list of acceptable responses.
@@ -147,14 +224,6 @@ public class Portfolio
     /** Cash every new portfolio starts with. */
     public static final double STARTING_BALANCE = 10000.00;
 
-    /** Longest name a portfolio may have. */
-    public static final int MAX_NAME_LENGTH = 20;
-
-    /** Smallest deposit the game accepts, in dollars. */
-    private static final double MIN_DEPOSIT = 0.01;
-
-    /** Half a cent, below which a difference is treated as zero. */
-    private static final double HALF_CENT = 0.005;
 
     /**
      * Creates a portfolio with the standard starting cash.
@@ -166,6 +235,8 @@ public class Portfolio
     {
         this.name = name;
         this.balance = STARTING_BALANCE;
+        this.deposited = STARTING_BALANCE;
+        this.stocks = new ArrayList<Stock>();
     }
 
     /**
