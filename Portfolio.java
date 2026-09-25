@@ -152,6 +152,10 @@ public class Portfolio
             
             } else if (option.equals("Sell")) {
                 validNames = new String[stocks.size()];
+                if (validNames.length == 0) {
+                    System.out.println("You don't have any stocks to sell.");
+                    continue;
+                }
                 for (int i = 0; i < stocks.size(); i++) {
                     validNames[i] = stocks.get(i).getName();
                 }
