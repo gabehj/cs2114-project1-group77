@@ -8,7 +8,7 @@ import java.util.Scanner;
  * ahead of the money they put in. The interact() method is the menu loop a
  * player uses to manage the portfolio from the command line.
  *
- * @author janbe
+ * @author gabehj
  * @version Sep 24, 2026
  */
 public class Portfolio
@@ -24,8 +24,6 @@ public class Portfolio
     private double deposited;
 
     /** The shares the portfolio owns, one holding per stock. */
-    private ArrayList<Holding> holdings;
-
     private ArrayList<Stock> stocks;
 
     /**
@@ -89,6 +87,7 @@ public class Portfolio
             }
         }
     }
+
 
     /**
      * Takes input message and list of acceptable responses.
@@ -664,24 +663,5 @@ public class Portfolio
         deposit(amount);
         System.out.println("Added " + Money.format(amount)
             + ". Cash now: " + Money.format(balance) + ".");
-    }
-
-
-    /**
-     * Copies a list of menu options and adds a Back option at the end.
-     *
-     * @param options
-     *            the options to copy
-     * @return a new array one entry longer, ending with Back
-     */
-    private static String[] withBack(String[] options)
-    {
-        String[] result = new String[options.length + 1];
-        for (int i = 0; i < options.length; i++)
-        {
-            result[i] = options[i];
-        }
-        result[options.length] = BACK;
-        return result;
     }
 }
