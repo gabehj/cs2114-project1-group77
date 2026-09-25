@@ -150,7 +150,7 @@ public class Portfolio
      */
     public Portfolio(String name)
     {
-        this(name, STARTING_BALANCE, STARTING_BALANCE);
+        this.name = name;
     }
 
 
