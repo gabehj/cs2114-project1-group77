@@ -126,7 +126,6 @@ public class Portfolio
             } else if (option.equals("Buy")) {
                 if (balance > 0) {
                     name = "";
-                    name = input.nextLine();
                     while (name.equals("")) {
                         System.out.println("Please enter a stock name");
                         name = input.nextLine();
@@ -139,11 +138,16 @@ public class Portfolio
                         }
                     }
                     double value = 0;
-                    while ((value <= 0) || (value > balance)) {
-                        System.out.println("Please enter the amount your would like to invest in " + name + " (between 0 and " + balance + ")");
+                    while ((value <= 0.01) || (value > balance)) {
+                        System.out.println("Please enter the amount your would like to invest in " + name + " (between 0.01 and " + balance + ")");
                         value = input.nextDouble();
+                        input.nextLine(); // Consume the newline character
                     }
+                    balance -= value;
                     stocks.add(new Stock(name, value));
+                }
+                else {
+                    System.out.println("You don't have any cash to invest.");
                 }
             
             } else if (option.equals("Sell")) {
