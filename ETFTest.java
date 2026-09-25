@@ -97,4 +97,18 @@ public class ETFTest extends TestCase
 
         assertEquals(EXPECTED_VOLATILITY, etf.getVolatility(), DELTA);
     }
+
+
+    /**
+     * Every ETF reports its own category, and does so even through a
+     * plain Stock reference, which is what the market listing relies on.
+     */
+    public void testGetCategory()
+    {
+        assertEquals("ETF", etf.getCategory());
+
+        Stock asStock = etf;
+        assertEquals("ETF", asStock.getCategory());
+        assertTrue(etf.toString().contains("(ETF)"));
+    }
 }

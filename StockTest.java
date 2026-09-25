@@ -204,4 +204,127 @@ public class StockTest extends TestCase
         assertTrue("average price after one update was " + mean,
             mean > 101.0 && mean < 104.0);
     }
+
+
+    /**
+     * A plain Stock reports the generic category; subclasses override it.
+     */
+    public void testGetCategory()
+    {
+        assertEquals("Stock", stock.getCategory());
+    }
+
+
+    /**
+     * A freshly built stock has not moved yet, so both change figures are
+     * zero.
+     */
+    public void testChangeStartsAtZero()
+    {
+        assertEquals(0.0, stock.getChange(), DELTA);
+        assertEquals(0.0, stock.getPercentChange(), DELTA);
+    }
+
+
+    /**
+     * After an update, getChange() is the difference between the new and
+     * old prices and getPercentChange() is that difference as a percentage
+     * of the old price.
+     */
+    public void testChangeAfterUpdate()
+    {
+        stock.update();
+        double after = stock.getPrice();
+
+        assertEquals(after - 100.0, stock.getChange(), DELTA);
+        assertEquals((after - 100.0) / 100.0 * 100.0,
+            stock.getPercentChange(), DELTA);
+    }
+
+
+    /**
+     * A stock whose old price is zero cannot report a percentage, so it
+     * reports zero instead of dividing by zero.
+     */
+    public void testPercentChangeFromZeroPrice()
+    {
+        Stock worthless = new Stock("ZERO", 0.0, 25, 100);
+        worthless.update();
+
+        assertEquals(0.0, worthless.getPercentChange(), DELTA);
+    }
+
+
+    /**
+     * setPrice() replaces the price and resets the change baseline, so the
+     * change right after a setPrice() is zero.
+     */
+    public void testSetPrice()
+    {
+        stock.update();
+        stock.setPrice(250.0);
+
+        assertEquals(250.0, stock.getPrice(), DELTA);
+        assertEquals(0.0, stock.getChange(), DELTA);
+        assertEquals(0.0, stock.getPercentChange(), DELTA);
+
+        stock.setPrice(0.0);
+        assertEquals(0.0, stock.getPrice(), DELTA);
+    }
+
+
+    /**
+     * setPrice() refuses a negative price and leaves the old one alone.
+     */
+    public void testSetPriceRejectsNegative()
+    {
+        try
+        {
+            stock.setPrice(-1.0);
+            fail("a negative price should be rejected");
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals(100.0, stock.getPrice(), DELTA);
+        }
+    }
+
+
+    /**
+     * setPrice() refuses NaN and infinity, which would otherwise poison
+     * every calculation that touched the price.
+     */
+    public void testSetPriceRejectsNaNAndInfinity()
+    {
+        try
+        {
+            stock.setPrice(Double.NaN);
+            fail("NaN should be rejected");
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals(100.0, stock.getPrice(), DELTA);
+        }
+        try
+        {
+            stock.setPrice(Double.POSITIVE_INFINITY);
+            fail("infinity should be rejected");
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertEquals(100.0, stock.getPrice(), DELTA);
+        }
+    }
+
+
+    /**
+     * toString() shows the name, category, price, and percent change.
+     */
+    public void testToString()
+    {
+        assertEquals("VTECH (Stock) $100.00 (+0.00%)", stock.toString());
+
+        Stock pricey = new Stock("BIG", 1234.5, 0, 1);
+        assertEquals("BIG (Stock) $1,234.50 (+0.00%)", pricey.toString());
+    }
 }

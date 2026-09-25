@@ -97,4 +97,18 @@ public class BondTest extends TestCase
 
         assertEquals(EXPECTED_VOLATILITY, bond.getVolatility(), DELTA);
     }
+
+
+    /**
+     * Every Bond reports its own category, and does so even through a
+     * plain Stock reference, which is what the market listing relies on.
+     */
+    public void testGetCategory()
+    {
+        assertEquals("Bond", bond.getCategory());
+
+        Stock asStock = bond;
+        assertEquals("Bond", asStock.getCategory());
+        assertTrue(bond.toString().contains("(Bond)"));
+    }
 }

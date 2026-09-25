@@ -98,4 +98,18 @@ public class TechTest extends TestCase
 
         assertEquals(EXPECTED_VOLATILITY, tech.getVolatility(), DELTA);
     }
+
+
+    /**
+     * Every Tech stock reports its own category, and does so even through a
+     * plain Stock reference, which is what the market listing relies on.
+     */
+    public void testGetCategory()
+    {
+        assertEquals("Tech", tech.getCategory());
+
+        Stock asStock = tech;
+        assertEquals("Tech", asStock.getCategory());
+        assertTrue(tech.toString().contains("(Tech)"));
+    }
 }

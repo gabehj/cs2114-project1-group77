@@ -112,4 +112,18 @@ public class EnergyTest extends TestCase
 
         assertEquals(EXPECTED_VOLATILITY, energy.getVolatility(), DELTA);
     }
+
+
+    /**
+     * Every Energy stock reports its own category, and does so even through a
+     * plain Stock reference, which is what the market listing relies on.
+     */
+    public void testGetCategory()
+    {
+        assertEquals("Energy", energy.getCategory());
+
+        Stock asStock = energy;
+        assertEquals("Energy", asStock.getCategory());
+        assertTrue(energy.toString().contains("(Energy)"));
+    }
 }
